@@ -1,0 +1,12 @@
+.custom_height{
+  min-height: 500px;
+}
+
+.errorlist
+{
+    color: red;
+}
+
+.error input, .error select {
+border: 2px red solid;
+}

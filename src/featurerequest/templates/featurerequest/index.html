@@ -1,0 +1,68 @@
+{% extends "featurerequest/base.html"%}
+{% load static %}
+{% block mainContent %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="pagination">
+            <li class="page-item active"><a class="page-link" href="{% url 'featurerequest:add_features' %}" >Create Feature Request</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        {% for feature_obj in feature_list %}
+            <div class="col-md-4 col-xs-4">
+                <div class="card mb-2" id="cont-{{ feature_obj.id }}">
+                    <div class="card-block" style="background-color: #eeeeee;">
+                        <h4 class="card-title"><a href="#">{{ feature_obj.title }}</a></h4>
+                        <h6 class="card-subtitle mb-2 text-muted">Client : {{ feature_obj.client }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Product Area : {{ feature_obj.product_area }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Status : {{ feature_obj.status }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Target Date : {{ feature_obj.target_date|date:"M d, Y" }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Priority : {{ feature_obj.priority }}</h6>
+                        <p class="card-text">{{ feature_obj.description|slice:":200"|safe }}  ... </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+
+            <nav aria-label="page-navigation">
+            <ul class="pagination">
+                {% if feature_list.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'featurerequest:index-withpage' feature_list.previous_page_number %}" tabindex="-1">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for i in pageList %}
+                    {% if i == feature_list.number %}
+                        <li class="page-item active"><a class="page-link" href="{% url 'featurerequest:index-withpage' i %}" >{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{% url 'featurerequest:index-withpage' i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if latest_edi_list.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'featurerequest:index-withpage' feature_list.next_page_number %}" tabindex="-1">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+            </nav>
+
+
+        </div>
+    </div>
+
+{% endblock mainContent %}
